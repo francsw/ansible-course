@@ -24,9 +24,7 @@
   gather_facts: no
   tasks:
     - import_role:
-        name:
-          - tomcat 
-          - apache
+        name: tomcat 
 
 - name: Deploy Postgresql
   hosts: appsdbs
@@ -36,6 +34,14 @@
     - import_role:
         name: postgresql
 
+- name: Deploy Apache
+  hosts: apps
+  become: true
+  gather_facts: no
+  tasks:
+    - import_role:
+        name: apache
+
 - hosts: localhost
   gather_facts: no
   tasks:
@@ -44,7 +50,3 @@
         url: http://frontend1.{{ GUID }}.example.opentlc.com/ansible
         return_content: yes
       register: smoketest_output
-
-
-
-

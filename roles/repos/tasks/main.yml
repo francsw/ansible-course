@@ -1,0 +1,11 @@
+---
+# Setup repos for 3 tier app deployment
+#
+
+# Probably could use YUM_REPOSITORY for this also
+
+- name: Setup yum repository file
+  copy:
+    src: open_three-tier-app.repo
+    dest: /etc/yum.repos.d/open_three-tier-app.repo
+    mode: 0644

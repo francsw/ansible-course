@@ -1,0 +1,7 @@
+---
+# Install HTTP
+#
+- name: Install Apache http
+  package:
+    name: httpie
+    state: latest

@@ -1,0 +1,13 @@
+---
+# Install and setup apache
+#
+- name: Install apache package
+  package:
+    name: httpd
+    state: latest
+
+- name: Enable and start apache
+  service:
+    name: httpd
+    enabled: yes
+    state: started

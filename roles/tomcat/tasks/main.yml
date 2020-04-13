@@ -1,0 +1,24 @@
+---
+# Deploy and setup Tomcat
+
+- name: Install Tomcat package
+  package: tomcat
+  state: latest
+
+
+- name: Create Ansible Tomcat directory
+  file:
+    path: /usr/share/tomcat/webapps/ansible
+    state: directory
+
+- name: copy static index.html to tomcat webapps/ansible/index.html
+  template:
+    src: index.html.j2
+    dest: /usr/share/tomcat/webapps/ansible/index.html
+    mode: 0644
+
+- name: Enable and start Tomcat
+  service: 
+    name: tomcat
+    enabled: yes
+    state: started

@@ -1,0 +1,50 @@
+---
+# Setup a 3 tier app 
+#
+
+- name: Enable repos for all
+  hosts: all
+  become: true
+  gather_facts: no
+  tasks:
+    - import_role:
+        name: repos
+
+- name: Deploy HAProxy
+  hosts: frontends
+  become: true
+  gather_facts: no
+  tasks:
+    - import_role:
+        name: haproxy
+
+- name: Deploy Tomcat
+  hosts: apps
+  become: true
+  gather_facts: no
+  tasks:
+    - import_role:
+        name:
+          - tomcat 
+          - apache
+
+- name: Deploy Postgresql
+  hosts: appsdbs
+  become: true
+  gather_facts: no
+  tasks:
+    - import_role:
+        name: postgresql
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Check if tomcat is running
+      uri:
+        url: http://frontend1.{{ GUID }}.example.opentlc.com/ansible
+        return_content: yes
+      register: smoketest_output
+
+
+
+

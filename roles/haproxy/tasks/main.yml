@@ -1,0 +1,24 @@
+---
+# Deploy the haproxy server
+#
+- name: Install python2-httpie
+  package:
+    name: python2-httpie
+    state: latest 
+
+- name: Install HAProxy
+  package:
+    name: haproxy
+    state: latest
+
+- name: Setup HAProxy config files
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+
+- name: Start and Enable HAProxy
+  service:
+    name: haproxy
+    state: restarted
+    enabled: yes
+

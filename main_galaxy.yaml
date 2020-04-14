@@ -1,0 +1,62 @@
+---
+# Setup a 3 tier app 
+#
+
+- name: Enable repos for all
+  hosts: all
+  become: true
+  gather_facts: no
+  tasks:
+    - import_role:
+        name: repos
+
+- name: Deploy HAProxy
+  hosts: frontends
+  become: true
+  gather_facts: no
+  tasks:
+    - import_role:
+        name: haproxy
+
+- name: Deploy Tomcat
+  hosts: apps
+  become: true
+  gather_facts: no
+  tasks:
+    - import_role:
+        name: tomcat 
+
+- name: Deploy Postgresql
+  hosts: appdbs
+  become: true
+  gather_facts: yes
+  vars_files:
+    - vault
+  tasks:
+    - include_role:
+        name: geerlingguy.postgresql
+      vars:
+        postgresql_databases:
+          - name: example_db
+        postgresql_users:
+          - name: "{{vault_postgresql_users_name }}"
+            password: "{{ vault_postgresql_users_password }}"
+
+- name: Deploy Apache
+  hosts: apps
+  become: true
+  gather_facts: no
+  tasks:
+    - import_role:
+        name: apache
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Check if tomcat is running
+      uri:
+        url: http://frontend1.{{ GUID }}.example.opentlc.com/ansible
+        return_content: yes
+      register: smoketest_output
+    - debug:
+        var: smoketest_output

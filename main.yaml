@@ -27,7 +27,7 @@
         name: tomcat 
 
 - name: Deploy Postgresql
-  hosts: appsdbs
+  hosts: appdbs
   become: true
   gather_facts: no
   tasks:
@@ -50,3 +50,5 @@
         url: http://frontend1.{{ GUID }}.example.opentlc.com/ansible
         return_content: yes
       register: smoketest_output
+    - debug:
+        var: smoketest_output

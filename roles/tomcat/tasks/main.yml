@@ -2,9 +2,9 @@
 # Deploy and setup Tomcat
 
 - name: Install Tomcat package
-  package: tomcat
-  state: latest
-
+  package: 
+    name: tomcat
+    state: latest
 
 - name: Create Ansible Tomcat directory
   file:

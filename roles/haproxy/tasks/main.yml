@@ -15,10 +15,9 @@
   template:
     src: haproxy.cfg.j2
     dest: /etc/haproxy/haproxy.cfg
+  notify: Restart haproxy
 
-- name: Start and Enable HAProxy
+- name: Enable HAProxy to start at boot
   service:
     name: haproxy
-    state: restarted
     enabled: yes
-

@@ -8,9 +8,9 @@
     state: present
 
 - name: Check if Postgresql have already been initialized
-    stat:
-      path: /var/lib/pgsql/data/PG_VERSION
-    register: pg_version_check
+  stat:
+    path: /var/lib/pgsql/data/PG_VERSION
+  register: pg_version_check
 
 - name: Initialize Postgresql DB
   shell: postgresql-setup initdb

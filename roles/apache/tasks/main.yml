@@ -5,9 +5,13 @@
   package:
     name: httpd
     state: latest
+  tags:
+   - install
 
 - name: Enable and start apache
   service:
     name: httpd
     enabled: yes
     state: started
+  tags:
+    - services

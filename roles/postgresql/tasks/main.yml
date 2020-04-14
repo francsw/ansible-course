@@ -6,19 +6,27 @@
   package:
     name: postgresql-server
     state: present
+  tags:
+    - install
 
 - name: Check if Postgresql have already been initialized
   stat:
     path: /var/lib/pgsql/data/PG_VERSION
   register: pg_version_check
+  tags:
+    - setup
 
 - name: Initialize Postgresql DB
   shell: postgresql-setup initdb
   when: not pg_version_check.stat.exists
+  tags:
+    - setup
 
 - name: Start and enable postgresql 
   service:
     name: postgresql
     state: started
     enabled: yes
+  tags:
+    - services
 
